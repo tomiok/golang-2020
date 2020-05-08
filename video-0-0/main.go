@@ -43,14 +43,14 @@ const (
 var Exported = "i am exported"
 
 func main() {
-	dataTypesZeroValues()
+	//dataTypesZeroValues()
 	// this is a one line comment
 
 	/*
 		this is
 		a  multiline comment
 	*/
-	println("")
+	/*println("")
 	dataTypesWithValues()
 
 	println("")
@@ -58,12 +58,15 @@ func main() {
 
 	println("")
 
-	printNum(9)
+	printNum(9) */
 
 	//otherTypeOfAssignation()
 
 	//usingExportedConst()
-	otherArrayTypes()
+	//otherArrayTypes()
+
+	fmt.Println(seeThisConditional(2))
+	fmt.Println(seeThisConditional(11))
 }
 
 func dataTypesZeroValues() {
@@ -136,8 +139,26 @@ func otherArrayTypes() {
 	for _, value := range sl2 {
 		fmt.Println(value)
 	}
-
 }
+
+func seeThisConditional(i int) bool {
+	var b bool
+
+	if i % 2 == 0 {
+		b = true
+		return b
+	}
+
+	b = false
+	return b
+}
+
+//functions
+//errrors
+//struct - interfaces
+//pointers
+//data type nil
+
 
 func usingExportedConst() {
 	myPi := math.Pi
