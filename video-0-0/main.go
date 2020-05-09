@@ -18,11 +18,11 @@ import (
 // unexported & exported
 
 // commands
-// build -> go build main.go
+// build -> go build functions.go
 // build many files -> go build *.go
 // build named binary -> go build -o myName *.go
 
-// run without build -> go run main.go
+// run without build -> go run functions.go
 // run without build many files -> go run *.go
 
 // variables & constants
@@ -152,12 +152,6 @@ func seeThisConditional(i int) bool {
 	b = false
 	return b
 }
-
-//functions
-//errrors
-//struct - interfaces
-//pointers
-//data type nil
 
 
 func usingExportedConst() {
