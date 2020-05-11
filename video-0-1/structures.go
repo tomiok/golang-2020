@@ -52,14 +52,14 @@ type Insurance interface {
 }
 
 // receiving an structure and change it, will not change the original value since we receive a copy of the original
-func r(c Car)  {
+func r(c Car) {
 	fmt.Println(c.Model)
 	c.Model = 2020
 	fmt.Println(c.Model)
 }
 
 // receiving a pointer and change it inside the function will ALSO change the first one that the function received as a parameter
-func rr(c *Car)  {
+func rr(c *Car) {
 	fmt.Println(c.Model)
 	c.Model = 3030
 	fmt.Println(c.Model)
