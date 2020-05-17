@@ -2,78 +2,101 @@ package main
 
 import "fmt"
 
-type fn func(i int) int // see function fnTypes
-
+//Interfaces
+// implicit interfaces
+// struct -> interface
 func main() {
-	strValue := fnArgs(11, func(i int) bool {
-		return i%2 == 0
-	})
+	fmt.Println("I want a coffee...")
 
-	fmt.Println(strValue)
+	var (
+		i ItalianCoffeeMachine
+		c ColombianCoffeeMachine
+	)
+
+	italianCoffee := GetCoffee(&i, 10)
+
+	italianCoffee.PrintCoffee()
+
+	colombianCoffee := GetCoffee(&c, 25)
+
+	colombianCoffee.PrintCoffee()
+
+	// ...
+
+	machine := CoffeeMachine{&c}
+
+	machineCCoffee := machine.MakeCoffee(39)
+
+	machineCCoffee.PrintCoffee()
+
+	// ...
+	supreme := Supreme{}
+	supremeCoffee, status := SupremeCaller(&supreme)
+
+	supremeCoffee.PrintCoffee()
+	fmt.Println("status is: " + status)
+
 }
 
-func fnArgs(n int, evenFn func(i int) bool) string {
-
-	if evenFn(n) {
-		return "yes"
-	} else {
-		return "no"
-	}
+type Coffee struct {
+	Intensity int
+	Region    string
 }
 
-func fnTypes() {
-	var f fn
-
-	f = func(i int) int {
-		return 0
-	}
-
-	f(0)
+func (c *Coffee) PrintCoffee() {
+	fmt.Println(fmt.Sprintf("This coffee is from %s and intensity is %d", c.Region, c.Intensity))
 }
 
-func anonFunctions() {
-	fn := func(i int) int {
-		return i + 10
-	}
-
-	fg := func(s string) int {
-		return 0
-	}
-
-	fn(8)
-	fg("100")
+// CoffeeMaker
+type CoffeeMaker interface {
+	MakeCoffee(intensity int) Coffee
 }
 
-// reserved word 'func'
-// name
-// arguments -- optional
-// return type -- optional in case of return nothing (void return)
-// multiple return type (int, string, error)
-// named return type (use it with naked return)
-func f1() {
-	fmt.Println("no args and no return")
+type ItalianCoffeeMachine struct {
 }
 
-func f2(i int) int {
-	return i + 10
+type ColombianCoffeeMachine struct {
 }
 
-func f3(i, j int) (int, int) {
-	return i + j, i * j
+func (i *ItalianCoffeeMachine) Print() {
+
 }
 
-//naked return
-func f4(i, j int) (sum int, multi int) {
-	sum = i + j
-	multi = i * j
-	return //naked return
-	//return sum, multi named return (valid)
+func (i *ItalianCoffeeMachine) MakeCoffee(intensity int) Coffee {
+	return Coffee{Intensity: intensity, Region: "Italy"}
 }
 
-// invariants could receive 0 to n args
-func invariantsArgs(i ...int) (sum int) {
-	for _, v := range i {
-		sum += v
-	}
+func (c *ColombianCoffeeMachine) MakeCoffee(intensity int) Coffee {
+	return Coffee{Intensity: intensity, Region: "Colombia"}
+}
+
+// .....
+
+func GetCoffee(coffeeMaker CoffeeMaker, i int) Coffee {
+	return coffeeMaker.MakeCoffee(i)
+}
+
+type CoffeeMachine struct {
+	CoffeeMaker
+}
+
+type Supreme struct{}
+
+type SupremeMachine interface {
+	CoffeeMaker
+	CheckMachine() string
+}
+
+func (s *Supreme) MakeCoffee(i int) Coffee {
+	return Coffee{Intensity: i, Region: "unknown but tasty"}
+}
+
+func (s *Supreme) CheckMachine() string {
+	return "looks good"
+}
+
+func SupremeCaller(sm SupremeMachine) (coffee Coffee, status string) {
+	coffee = sm.MakeCoffee(99)
+	status = sm.CheckMachine()
 	return
 }
