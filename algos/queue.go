@@ -2,6 +2,9 @@ package main
 
 import "fmt"
 
+//first in first out
+// add put an element in the end
+// remove dequeue the first element in the slice
 type Queue struct {
 	nodes []NodeQ
 }
@@ -15,11 +18,11 @@ func main() {
 
 	fmt.Println("size", q.size())
 
-	node :=	q.remove()
+	node := q.remove()
 	fmt.Println("data", node.data)
 	fmt.Println("size", q.size())
 	q.add(4)
-	node =	q.remove()
+	node = q.remove()
 	fmt.Println("data", node.data)
 	q.add(5)
 	fmt.Println("size", q.size())
