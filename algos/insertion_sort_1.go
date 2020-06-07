@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// insertion sort, only the last element
 func main() {
 	n := 5
 	arr := []int32{2, 4, 6, 8, 1}

@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// rearrange all the array with insertion sort
 func main() {
 	arr := []int{2, 4, 5, 7, 3, 8}
 	fmt.Println(insertion(arr))

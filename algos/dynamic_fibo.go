@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// fibonacci using dynamic programming
 func main() {
 	fmt.Println(dFib(12))
 }

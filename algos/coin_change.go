@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// you have some infinite coins of certain value, how many ways do you have to reach an specific number
 func main() {
 	fmt.Println(change(10, []int64{2,5,3,6}))
 }
