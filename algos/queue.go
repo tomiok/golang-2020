@@ -13,12 +13,16 @@ func main() {
 	q.add(2)
 	q.add(3)
 
-	fmt.Println(q.size())
+	fmt.Println("size", q.size())
 
 	node :=	q.remove()
-
-	fmt.Println(node.data)
-	fmt.Println(q.size())
+	fmt.Println("data", node.data)
+	fmt.Println("size", q.size())
+	q.add(4)
+	node =	q.remove()
+	fmt.Println("data", node.data)
+	q.add(5)
+	fmt.Println("size", q.size())
 }
 
 func makeQueue() Queue {
