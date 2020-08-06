@@ -149,21 +149,26 @@ func validateTokenMiddleware(next http.Handler) http.HandlerFunc {
 }
 
 func validateToken(s string) bool {
-	token := strings.Replace(s, "bearer ", "", 1) // handle bearer ignoring casing
-	mySigningKey := []byte("AllYourBase") // centralize this secret key
-	t, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+	if strings.Contains(strings.ToLower(s), "bearer ") {
+		// token := strings.Replace(s, "bearer ", "", 1) // handle bearer ignoring casing
+		token := s[7:]
+		mySigningKey := []byte("AllYourBase") // centralize this secret key
+		t, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+			// Don't forget to validate the alg is what you expect:
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+			}
+
+			return mySigningKey, nil
+		})
+
+		if err != nil {
+			log.Println(err.Error())
+			return false
 		}
 
-		return mySigningKey, nil
-	})
-
-	if err != nil {
-		log.Println(err.Error())
-		return false
+		return t.Valid
 	}
-
-	return t.Valid
+	return false
 }
+
