@@ -33,7 +33,7 @@ func game(t *time.Ticker, done chan bool) {
 	case <-t.C:
 		fmt.Println("time's up dude")
 	case <-done:
-	//default will not check any one and exit the select immediately
+		//default will not check any one and exit the select immediately
 	}
 }
 

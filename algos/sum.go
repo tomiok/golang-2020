@@ -5,7 +5,7 @@ import "fmt"
 //find a pair in the array that sum an specific value
 func main() {
 	//nums := []int{1,2,4,4} //true case
-	nums := []int{1,2,4,5} //false case
+	nums := []int{1, 2, 4, 5} //false case
 	res := 8
 
 	val := findSum(nums, res)

@@ -171,4 +171,3 @@ func validateToken(s string) bool {
 	}
 	return false
 }
-

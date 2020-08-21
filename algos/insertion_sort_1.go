@@ -19,6 +19,7 @@ func insertionSort1(n int32, arr []int32) {
 		printArr(arr, n, num)
 	}
 }
+
 // TODO remove last character
 func printArr(arr []int32, index, n int32) {
 	s := ""

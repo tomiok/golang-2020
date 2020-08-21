@@ -24,7 +24,7 @@ func main() {
 
 	_, err = division(10, 0)
 
-	if _, errr := division(10,0); errr != nil {
+	if _, errr := division(10, 0); errr != nil {
 		fmt.Println("cannot show result")
 	}
 

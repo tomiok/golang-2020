@@ -144,7 +144,7 @@ func otherArrayTypes() {
 func seeThisConditional(i int) bool {
 	var b bool
 
-	if i % 2 == 0 {
+	if i%2 == 0 {
 		b = true
 		return b
 	}
@@ -152,7 +152,6 @@ func seeThisConditional(i int) bool {
 	b = false
 	return b
 }
-
 
 func usingExportedConst() {
 	myPi := math.Pi

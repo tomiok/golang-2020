@@ -104,7 +104,7 @@ type PatientStorage interface {
 	SavePatient(name string)
 }
 
-type PatientStg struct {}
+type PatientStg struct{}
 
 func (p *PatientStg) SavePatient(name string) {
 	// SQL Calls
@@ -123,9 +123,7 @@ func (p *MockPatientStg) SavePatient(name string) {
 		panic("")
 	}
 
-
 }
-
 
 func main() {
 	fmt.Println(statusActive)
