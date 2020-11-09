@@ -20,7 +20,7 @@ func sum(arr []int) []int {
 	}
 
 	if carry == 1 {
-		res2 := []int{}
+		var res2 []int
 		for i, v := range res {
 			if i == 0 {
 				res2 = append(res2, 1)
