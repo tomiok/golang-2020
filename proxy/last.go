@@ -21,10 +21,10 @@ func mainL() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		go logSNI(conn)
+		go logSNIL(conn)
 	}
 }
-
+//https://tools.ietf.org/html/rfc6066#page-5
 func logSNIL(conn net.Conn) {
 	defer conn.Close()
 	conn.SetReadDeadline(time.Now().Add(30 * time.Second))

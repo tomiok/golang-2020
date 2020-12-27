@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	connect()
+	connectT()
 }
 
 func connectT() {
@@ -26,7 +26,7 @@ func connectT() {
 		if err != nil {
 			log.Fatal(err.Error())
 		}
-		go proxy(conn)
+		go proxyT(conn)
 	}
 }
 
