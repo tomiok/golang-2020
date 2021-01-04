@@ -1,13 +1,12 @@
 package main
 
 import (
-"bytes"
-"encoding/binary"
-"golang.org/x/crypto/cryptobyte"
-"io"
-"log"
-"net"
-	"strings"
+	"bytes"
+	"encoding/binary"
+	"golang.org/x/crypto/cryptobyte"
+	"io"
+	"log"
+	"net"
 	"time"
 )
 
@@ -25,6 +24,7 @@ func mainL() {
 		go logSNIL(conn)
 	}
 }
+
 //https://tools.ietf.org/html/rfc6066#page-5
 func logSNIL(conn net.Conn) {
 	defer conn.Close()
@@ -42,12 +42,12 @@ func logSNIL(conn net.Conn) {
 		return
 	}
 
-	ch, ok := ParseClientHello(buf.Bytes())
+	ch, ok := ParseClientHelloL(buf.Bytes())
 	if ok {
 		log.Printf("Got a connection with SNI %q", ch.SNI)
 	}
 
-	c := prefixConn{
+	c := prefixConnL{
 		Conn:   conn,
 		Reader: io.MultiReader(&buf, conn),
 	}
@@ -59,7 +59,7 @@ func logSNIL(conn net.Conn) {
 		config := &tls.Config{Certificates: []tls.Certificate{cert}}
 		tlsConn := tls.Server(c, config)*/
 
-	proxy(c)
+	proxyL(c)
 }
 
 type prefixConnL struct {
@@ -67,7 +67,7 @@ type prefixConnL struct {
 	io.Reader
 }
 
-func (c prefixConn) ReadL(p []byte) (int, error) {
+func (c prefixConnL) ReadL(p []byte) (int, error) {
 	return c.Reader.Read(p)
 }
 
@@ -86,7 +86,7 @@ func proxyL(conn net.Conn) {
 }
 
 func ParseClientHelloL(record []byte) (c *ClientHelloL, ok bool) {
-	c = &ClientHello{}
+	c = &ClientHelloL{}
 
 	/* struct {
 		ContentType type;
@@ -200,4 +200,3 @@ func ParseClientHelloL(record []byte) (c *ClientHelloL, ok bool) {
 type ClientHelloL struct {
 	SNI string
 }
-
