@@ -25,7 +25,7 @@ func connectS() {
 		if err != nil {
 			log.Fatal(err.Error())
 		}
-		go copyOnErr(conn)
+		go copyOnErrS(conn)
 	}
 }
 
