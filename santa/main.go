@@ -28,7 +28,7 @@ func main() {
 }
 
 func horseArriving() {
-	arrival()
+	horseArrival()
 }
 
 func wakeUpSanta() {

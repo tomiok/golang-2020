@@ -17,7 +17,7 @@ type horse struct {
 
 var horses = make([]horse, totalHorses)
 
-func arrival() bool {
+func horseArrival() bool {
 	src := rand.NewSource(time.Now().UnixNano())
 	r := rand.New(src)
 	secs := r.Intn(maxSeconds)
