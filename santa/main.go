@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"os/signal"
 	"sync"
@@ -15,7 +16,6 @@ func main() {
 	fmt.Println("starting")
 	start()
 
-
 	wg.Add(3)
 	go startingSanta()
 	go horseArriving(&wg)
@@ -27,12 +27,14 @@ func main() {
 		signal.Notify(leave, os.Interrupt)
 	}()
 
+
 	select {
 	case <-callingSanta:
 		fmt.Println("santa is called")
 		wakeUpSanta()
 	case <-leave:
 		fmt.Println("outta")
+		os.Exit(100)
 	}
 	wg.Wait()
 	fmt.Println("Santa is ready to go!")
@@ -52,4 +54,10 @@ func startingSanta() {
 
 func start() {
 	santaStateZero()
+}
+
+func randomNumber(until int) int {
+	src := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(src)
+	return r.Intn(until)
 }

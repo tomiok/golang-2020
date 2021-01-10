@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"sync"
 	"time"
 )
@@ -19,14 +18,12 @@ type horse struct {
 var horses = make([]horse, totalHorses)
 
 func horseArrival(wg *sync.WaitGroup) bool {
-	src := rand.NewSource(time.Now().UnixNano())
-	r := rand.New(src)
-	secs := r.Intn(maxSeconds)
 	for i := 0; i < totalHorses; i++ {
+		secs := randomNumber(maxSeconds)
 		time.Sleep(time.Duration(secs) * time.Second)
 		horse := horse{name: time.Now().String()}
 		horses = append(horses, horse)
-		fmt.Println("horse arrived!" + string(i))
+		fmt.Println("horse arrived!")
 	}
 	fmt.Println("all the horses are here homie")
 	wg.Done()
