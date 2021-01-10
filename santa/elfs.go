@@ -42,7 +42,7 @@ func makeToy(wg *sync.WaitGroup, chBrokenToy, chCallingSanta chan bool) {
 	fmt.Println("elf crafting a toy")
 	rand := randomNumber(totalProbability)
 
-	if rand < 98 {
+	if rand < brokenToyProbability {
 		counter++
 		go santaHelp(chBrokenToy, chCallingSanta)
 		select {
