@@ -4,17 +4,22 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"sync"
 	"time"
 )
 
 func main() {
 	leave := make(chan os.Signal, 1)
-
+	callingSanta := make(chan bool, 1)
+	var wg sync.WaitGroup
 	fmt.Println("starting")
 	start()
+
+	wg.Add(2)
 	go startingSanta()
-	time.Sleep(5 * time.Second)
-	go horseArriving()
+	go horseArriving(&wg)
+	go elfsAreWorking(&wg, callingSanta)
+	wg.Done()
 	time.Sleep(5 * time.Second)
 
 	go func() {
@@ -22,13 +27,18 @@ func main() {
 	}()
 
 	select {
+	case <-callingSanta:
+		fmt.Println("santa is called")
+		wakeUpSanta()
 	case <-leave:
 		fmt.Println("outta")
 	}
+	wg.Wait()
+	fmt.Println("Santa is ready to go!")
 }
 
-func horseArriving() {
-	horseArrival()
+func horseArriving(wg *sync.WaitGroup) {
+	horseArrival(wg)
 }
 
 func wakeUpSanta() {
