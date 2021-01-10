@@ -9,11 +9,8 @@ import (
 const numOfElf = 12
 
 var (
-	elfs  = make([]elf, numOfElf)
-	teamA = elfs[0:2]
-	teamB = elfs[3:5]
-	teamC = elfs[6:8]
-	teamD = elfs[9:11]
+	elfs   = make([]elf, numOfElf)
+	broken int
 )
 
 type elf struct {
@@ -22,35 +19,41 @@ type elf struct {
 
 func elfsAreWorking(extWG *sync.WaitGroup, callingSanta chan bool) {
 
-	var wg sync.WaitGroup
+	var (
+		wg sync.WaitGroup
+	)
 
-	groupOfElf := make([][]elf, 4)
-	groupOfElf = append(groupOfElf, teamA)
-	groupOfElf = append(groupOfElf, teamB)
-	groupOfElf = append(groupOfElf, teamC)
-	groupOfElf = append(groupOfElf, teamD)
+	chBrokenToy := make(chan bool)
 
-	wg.Add(len(groupOfElf))
+	wg.Add(len(elfs))
 
-	for _, group := range groupOfElf {
-		go makeToy(group, callingSanta, &wg)
+	for range elfs {
+		go makeToy(&wg, chBrokenToy)
 	}
 
 	wg.Wait()
 	extWG.Done()
 }
 
-func makeToy(elfs []elf, callingSanta chan bool, wg *sync.WaitGroup) {
+func makeToy(wg *sync.WaitGroup, ch chan bool) {
 	fmt.Println("elf crafting a toy")
+	if time.Now().Nanosecond()%2 == 1 { //hardcoded, change this for a 33% chance of a broken toy
+		fmt.Println("toy is broken...")
+		wg.Wait()
+		go santaHelp(ch)
+		<-ch
+		wg.Done()
+	} else {
+		fmt.Println("toy is done")
+		wg.Done()
+	}
 
-	for i, _ := range elfs {
+}
+var i int
+func santaHelp(ch chan bool) {
+	i ++
 
-		if i == 1 { //hardcoded, change this for a 33% chance of a broken toy
-			fmt.Println("toy is broken...")
-			callingSanta <- true
-			wg.Wait()
-			time.Sleep(2 * time.Second)
-			wg.Done()
-		}
+	if i == 3 {
+		ch <- true
 	}
 }

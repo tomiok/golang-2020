@@ -15,7 +15,8 @@ func main() {
 	fmt.Println("starting")
 	start()
 
-	wg.Add(2)
+
+	wg.Add(3)
 	go startingSanta()
 	go horseArriving(&wg)
 	go elfsAreWorking(&wg, callingSanta)
