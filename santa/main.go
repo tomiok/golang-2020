@@ -4,6 +4,7 @@ import (
 	"log"
 	"math/rand"
 	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -13,7 +14,7 @@ const (
 )
 
 var (
-	counter      int               //contador de elfos que tienen problemas
+	counter      uint32            //contador de elfos que tienen problemas
 	santaChUp    = make(chan bool) //canal para Santa despierto
 	santaChSleep = make(chan bool) //canal para santa dormido
 	s            = santa{
@@ -32,11 +33,11 @@ func elfsAreWorking(extWG *sync.WaitGroup) { //la funcion lanza cada una de las 
 	wg.Add(numOfElf) //añado el numero de elfos, que seran el numero de rutinas que voy a esperar
 	for i := 1; i <= numOfElf; i++ {
 		log.Println("elf", i, "crafting a toy")
-		rand := rand.Intn(1) //saco un numero aleatorio 0,1 o 2 porque la probabilidad de que se rompa un juguete es 1/3
+		random := rand.Intn(1) //saco un numero aleatorio 0,1 o 2 porque la probabilidad de que se rompa un juguete es 1/3
 
-		if rand == 0 {
-			counter++       //incremento el contador de elfos con problemas
-			go santaHelp(i) //en el caso de que se rompe un juguete llamamos a la rutina santaHelp que controla el numero de juguetes totales que se han roto
+		if random == 0 {
+			atomic.AddUint32(&counter, 1) //incremento el contador de elfos con problemas
+			go santaHelp(i)               //en el caso de que se rompe un juguete llamamos a la rutina santaHelp que controla el numero de juguetes totales que se han roto
 		} else {
 			log.Println("toy of elf", i, "is done")
 
@@ -53,7 +54,7 @@ func santaHelp(i int) {
 
 	log.Println("The toy of elf", i, "is broken, he needs help")
 
-	if counter == 3 { //necesitamos 3 elfos con problemas para llamar a santa
+	if atomic.LoadUint32(&counter) == 3 { //necesitamos 3 elfos con problemas para llamar a santa
 		santaChUp <- true                                  //despertamos a santa claus porque necesitan los elfos su ayuda
 		time.Sleep(time.Duration(1000) * time.Millisecond) //esperamos un segundo para que aparezca antes el mensaje "Santa is up now..." que "santa fixing the toys"
 		log.Println("santa fixing the toys")
@@ -62,7 +63,8 @@ func santaHelp(i int) {
 		log.Println("Problem fixed in", helptime, "seconds")
 		santaChSleep <- true //una vez que santa soluciona el problema de los elfos vuelve a dormir hasta volver a ser despertado por otro grupo de elfos o por los renos
 		s.mutex.Unlock()
-		counter = 0 //reinicio el contador de elfos con problemas
+
+		atomic.StoreUint32(&counter, 0) //reinicio el contador de elfos con problemas
 	}
 }
 
