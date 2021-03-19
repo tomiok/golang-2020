@@ -1,0 +1,42 @@
+
+=== gRPC - BDD/TDD
+
+- API gateway (ejemplos: Tyk)
+
+- VPN (https://github.com/search?l=Go&q=vpn&type=Repositories)
+
+- distributed key-value store (ejemplos: redis, cassandra)
+
+- un kafka like system / proyecto de MQ
+
+- un analytics middleware
+
+- un docker like container creator
+
+- password manager local (ejemplo: 1password, lastpass => CLI)
+
+- cliente Docker para tareas core: subir, bajar, buscar, correr, eliminar imagen
+
+- k8s RBAC operator
+
+- Automatizar depliegues CI/CD (ejemplo: jenkins)
+
+- service discovery, load balancer (ejemplo: Eureka, consul)
+
+- generador de certificados
+
+- circuit breaker (ejemplo: hystrix)
+
+- generador de codigo a traves de un yml
+
+- webRTC
+
+- parser de expresiones regulares
+    email.Compile() => tomas@msn.com OK
+                       tomas@msn     FALSE
+
+///////////////
+
+- 2 proyectos
+- no van a estar superpuestos
+- el 1ro
