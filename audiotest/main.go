@@ -19,15 +19,6 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-/*
-	for _, b := range buf {
-		fmt.Fprintf(w, "Chunk %s \n", string(b))
-		flusher.Flush() // Trigger "chunked" encoding and send a chunk...
-		time.Sleep(100 * time.Millisecond)
-		fmt.Println(string(b))
-	}
-*/
-
 func flushCopy(dst io.Writer, src io.Reader, size int64) (written int64, err error) {
 	buf := make([]byte, 1024 * 8)
 
@@ -61,3 +52,12 @@ func flushCopy(dst io.Writer, src io.Reader, size int64) (written int64, err err
 	}
 	return written, err
 }
+
+/*
+	for _, b := range buf {
+		fmt.Fprintf(w, "Chunk %s \n", string(b))
+		flusher.Flush() // Trigger "chunked" encoding and send a chunk...
+		time.Sleep(100 * time.Millisecond)
+		fmt.Println(string(b))
+	}
+*/
